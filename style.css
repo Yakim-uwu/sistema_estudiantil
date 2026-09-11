@@ -221,3 +221,6 @@ input:focus {
     background-color: var(--badge-danger-bg);
     color: var(--badge-danger-text);
 }
+.nota-roja { 
+    color: var(--badge-danger-text); 
+    font-weight: 600; }
