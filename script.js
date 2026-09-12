@@ -4,20 +4,42 @@ function agregarEstudiante(){
     const nota1 = parseFloat(document.getElementById("nota1").value)
     const nota2 = parseFloat(document.getElementById("nota2").value)
     const nota3 = parseFloat(document.getElementById("nota3").value)
+    const asistencia = parseInt(document.getElementById("asistencia").value)
 
     if (!nombre || !apellido) return alert("El nombre y apellido son obligatorios.")
     if ([nota1, nota2, nota3].some(n => isNaN(n) || n < 1.0 || n > 7.0)) return alert("Notas entre 1.0 y 7.0.");
 
+    if(isNaN(asistencia)||asistencia < 0 || asistencia > 100)return alert("Asistencia entre 0 y 100.")
+
     const promedio = parseFloat(((nota1*0.3)+(nota2*0.4)+(nota3*0.3)).toFixed(1))
 
-    const estado = promedio >= 4.0? "Aprobado" : "Reprobado"
-    const claseBadge = promedio >= 4.0? "aprobado" : "reprobado"
+    let estado = ""
+    let claseBadge = ""
+
+    if (asistencia < 60) {
+        estado = "Reprobado por inasistencia";
+        claseBadge = "reprobado-inasistencia";
+    } else if (asistencia >= 60 && asistencia < 70) {
+        estado = promedio >= 5.0 ? "Aprobado" : "Reprobado";
+        claseBadge = promedio >= 5.0 ? "aprobado" : "reprobado";
+    } else {
+        estado = promedio >= 4.0 ? "Aprobado" : "Reprobado";
+        claseBadge = promedio >= 4.0 ? "aprobado" : "reprobado";
+    }
+        
+    
+
+
     const c1 = nota1 < 4.0? "nota-roja" : ""
     const c2 = nota2 < 4.0? "nota-roja" : ""
     const c3 = nota3 < 4.0? "nota-roja" : ""
     const cp = promedio < 4.0? "nota-roja" : ""
 
+    
+    
+    
 
+    
     document.getElementById("tablaEstudiantes").innerHTML += `
     <tr>
             <td>${nombre}</td>
@@ -26,6 +48,7 @@ function agregarEstudiante(){
             <td class="${c2}">${nota2.toFixed(1)}</td>
             <td class="${c3}">${nota3.toFixed(1)}</td>
             <td class="${cp}">${promedio.toFixed(1)}</td>
+            <td>${asistencia}%</td>
             <td><span class="${claseBadge}">${estado}</span></td>
         </tr>
     `;
